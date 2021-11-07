@@ -1,7 +1,10 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
+const jwt=require('jsonwebtoken')
 const Review = require("../models/review")
+
+const User=require('../models/user')
 
 router.post('/', (req, res, next) => {
     let header = req.get("Authorization");
@@ -29,7 +32,7 @@ router.post('/', (req, res, next) => {
                             userId: decoded.userId,
                             animeId: req.body.animeId,
                             rating: req.body.rating,
-                            review: req.body.review,
+                            review: req.body.review,         
                         });
                         review
                             .save()
@@ -38,7 +41,6 @@ router.post('/', (req, res, next) => {
                                 res.status(201).json({
                                     message: "Review Added",
                                     status: 201,
-
                                 })
                             })
                             .catch(err => {
